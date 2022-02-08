@@ -66,7 +66,18 @@ bool searchRec(Node* root, int point[], unsigned depth)
 
                 return searchRec(root->right, point, depth + 1);
         }
-
+void traverse(Node* root)
+        {
+                if(root==NULL)
+                return;
+       // if (arePointsSame(root->point, point))
+                //             {   cout<<"Depth : "<<"----"<<depth<<endl;
+                //                 return true;
+                //             }
+                cout<<root->point[0]<<"   "<<root->point[1]<<"\n";
+                traverse(root->left);
+                traverse(root->right);
+        }
 void find_range(Node*root,int x1,int x2,int y1,int y2,int depth)
 {
     if (root == NULL)
@@ -106,32 +117,36 @@ void find_range(Node*root,int x1,int x2,int y1,int y2,int depth)
 void input()
 {
     cout<<endl<<"No of inputs: ";
+//     ifstream infile;
+//     infile.open("input.txt");
+//     if(!infile)
+// {
+//         cerr << "Unable to open";
+// }
+    FILE* myfile;
+
+    myfile=fopen("input.txt","r");
     int num;
-    cin>>num;
+//     infile>>num;
     int point[k];
+        fscanf(myfile, "%d", &num);
 
     for(int i=0;i<num;i++)
     {
-     cout<<"DATA "<<i+1<<endl<<"X CORD:";
-        cin>>point[0];
-        cout<<endl<<"Y CORD:";
-        cin>>point[1];
-        
-            root = insertRec(root,point,0);
+            fscanf(myfile, "%d %d", &point[0], &point[1]);
+            root = insertRec(root, point, 0);
     }
-
+    
+    fclose(myfile);
 }
 
 int main()
 {
-
-
 	char c;
 	do{
-	cout<<endl<<"1.SEARCH A POINT"<<endl<<"2.RANGE QUERY"<<endl<<"3.INPUT DATA POINTS"<<endl;
+	cout<<endl<<"1.SEARCH A POINT"<<endl<<"2.RANGE QUERY"<<endl<<"3.INPUT DATA POINTS"<<endl<<"4.Traverse"<<endl;
 	int option;
 	cin>>option;
-
 
     switch(option)
     {
@@ -161,13 +176,14 @@ int main()
                     find_range(root,x1,x2,y1,y2,0);
                     break;
             case 3: input();
+                        // traverse(root);
+            case 4: traverse(root);
                     break;
             default:
                     cout<<endl<<"Enter a valid option"<<endl;
     }
     cout<<endl<<"Continue?(y/n)"<<endl;
     cin>>c;
-    system("cls");
     }
     while(c=='y');
  	return 0;
